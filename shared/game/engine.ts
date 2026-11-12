@@ -239,13 +239,17 @@ export function processWorkout(prev: GameState, workout: GWorkout, ctx: ProcessC
   };
 }
 
-/** Replay a full history from scratch. `seed` carries the non-workout counters (following, routines). */
-export function replay(workouts: GWorkout[], ctx: ProcessContext, seed?: Partial<Stats>) {
+/**
+ * Replay a full history from scratch. `seed` carries the non-workout counters (following,
+ * routines); `goalForWeek` lets the caller keep the weekly goal that applied back then.
+ */
+export function replay(workouts: GWorkout[], ctx: ProcessContext, seed?: Partial<Stats>, goalForWeek?: (week: string) => number | undefined) {
   let state = emptyState();
   Object.assign(state.stats, seed);
   const summaries = new Map<string, WorkoutSummary>();
   for (const w of [...workouts].sort((a, b) => a.startedAt - b.startedAt)) {
-    const r = processWorkout(state, w, ctx);
+    const weeklyGoal = goalForWeek?.(weekKey(w.startedAt, w.tzOffsetMin)) ?? ctx.weeklyGoal;
+    const r = processWorkout(state, w, { ...ctx, weeklyGoal });
     state = r.state;
     summaries.set(w.id, r.summary);
   }

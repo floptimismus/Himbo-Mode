@@ -1,0 +1,4 @@
+# Local development overrides for wrangler.jsonc "vars". Copied to .dev.vars by `npm run dev`.
+RP_NAME=Himbo-Mode (dev)
+RP_ID=localhost
+ORIGINS=http://localhost:5173,http://localhost:4173

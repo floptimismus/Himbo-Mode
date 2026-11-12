@@ -1,0 +1,28 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "himbo-mode",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-10-01",
+  "observability": { "enabled": true },
+  "assets": {
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*"]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "himbo-mode",
+      // README "Setup" step 3: replace with the id printed by `wrangler d1 create himbo-mode`.
+      "database_id": "00000000-0000-0000-0000-000000000000",
+      "migrations_dir": "migrations"
+    }
+  ],
+  // Production values. Local dev overrides them through .dev.vars (see .dev.vars.example).
+  // README "Setup" step 4: replace YOUR-SUBDOMAIN (or use your custom domain).
+  "vars": {
+    "RP_NAME": "Himbo-Mode",
+    "RP_ID": "YOUR-SUBDOMAIN.workers.dev",
+    "ORIGINS": "https://himbo-mode.YOUR-SUBDOMAIN.workers.dev,https://*-himbo-mode.YOUR-SUBDOMAIN.workers.dev"
+  }
+}

@@ -32,7 +32,7 @@ function TabBar() {
               className={({ isActive }) =>
                 cx(
                   'relative flex min-h-[52px] flex-col items-center justify-center gap-1 rounded-[22px] px-1 text-[10px] font-semibold transition-colors',
-                  isActive ? 'bg-ink/12 text-ink shadow-[inset_0_1px_0_var(--glass-hi)]' : 'text-ink-soft',
+                  isActive ? 'bg-ink/12 text-ink shadow-[inset_0_1px_0_var(--glass-hi)]' : 'text-ink/80',
                 )
               }
             >

@@ -42,12 +42,8 @@ const COLUMNS: Record<string, string> = {
   weeklyGoal: 'weekly_goal', leaderboardVisible: 'leaderboard_visible', workoutsPublic: 'workouts_public',
 };
 
-export const me = new Hono<AppEnv>()
-  .use(requireAuth)
-  .get('/', async (c) => {
-    const db = c.env.DB;
-    const userId = c.var.user.id;
-    const tz = Number(c.req.query('tz') ?? 0) || 0;
+/** The signed-in user's settings plus their live game status (streak evaluated "now"). */
+export async function buildMe(db: D1Database, userId: string, tz: number): Promise<MeResponse> {
     const [row, { state }] = await Promise.all([db.prepare('SELECT * FROM users WHERE id = ?').bind(userId).first<UserRow>(), loadState(db, userId)]);
     if (!row) throw new HttpError(401, 'unauthorized');
     const t = now();
@@ -72,8 +68,12 @@ export const me = new Hono<AppEnv>()
         workouts: state.stats.workouts,
       },
     };
-    return c.json(body);
-  })
+    return body;
+}
+
+export const me = new Hono<AppEnv>()
+  .use(requireAuth)
+  .get('/', async (c) => c.json(await buildMe(c.env.DB, c.var.user.id, Number(c.req.query('tz') ?? 0) || 0)))
   .patch('/', zValidator('json', settingsSchema), async (c) => {
     const input = c.req.valid('json');
     const sets: string[] = [];

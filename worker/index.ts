@@ -1,10 +1,10 @@
 import { Hono } from 'hono';
 import type { AppEnv } from './env.ts';
 import { HttpError } from './lib/util.ts';
-import { checkOrigin } from './middleware/session.ts';
+import { checkOrigin, sessionUser } from './middleware/session.ts';
 import { auth, passkeys } from './routes/auth.ts';
 import { exercises } from './routes/exercises.ts';
-import { me } from './routes/me.ts';
+import { buildMe, me } from './routes/me.ts';
 import { routines } from './routes/routines.ts';
 import { social } from './routes/social.ts';
 import { workouts } from './routes/workouts.ts';
@@ -18,6 +18,11 @@ app.use(async (c, next) => {
 app.use(checkOrigin);
 
 app.get('/health', (c) => c.json({ ok: true }));
+// Signed-out visitors get `null` instead of a 401, so the first page load stays error-free.
+app.get('/session', async (c) => {
+  const user = await sessionUser(c);
+  return c.json(user ? await buildMe(c.env.DB, user.id, Number(c.req.query('tz') ?? 0) || 0) : null);
+});
 app.route('/auth', auth);
 app.route('/me', passkeys);
 app.route('/me', me);

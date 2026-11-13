@@ -23,10 +23,10 @@ export async function destroySession(c: Context<AppEnv>) {
   deleteCookie(c, COOKIE, { path: '/' });
 }
 
-/** Requires a valid session; rolls the expiry forward when half of it is used up. */
-export const requireAuth: MiddlewareHandler<AppEnv> = async (c, next) => {
+/** Resolves the session cookie to a user (or null) and rolls the expiry forward when half is used up. */
+export async function sessionUser(c: Context<AppEnv>) {
   const token = getCookie(c, COOKIE);
-  if (!token) throw new HttpError(401, 'unauthorized');
+  if (!token) return null;
   const hash = await sha256(token);
   const row = await c.env.DB.prepare(
     'SELECT s.user_id, s.expires_at, u.username FROM sessions s JOIN users u ON u.id = s.user_id WHERE s.token_hash = ?',
@@ -34,12 +34,19 @@ export const requireAuth: MiddlewareHandler<AppEnv> = async (c, next) => {
     .bind(hash)
     .first<{ user_id: string; expires_at: number; username: string }>();
   const t = now();
-  if (!row || row.expires_at < t) throw new HttpError(401, 'unauthorized');
+  if (!row || row.expires_at < t) return null;
   if (row.expires_at - t < TTL_MS / 2) {
     await c.env.DB.prepare('UPDATE sessions SET expires_at = ? WHERE token_hash = ?').bind(t + TTL_MS, hash).run();
     setCookie(c, COOKIE, token, { httpOnly: true, secure: isHttps(c), sameSite: 'Lax', path: '/', maxAge: TTL_MS / 1000 });
   }
-  c.set('user', { id: row.user_id, username: row.username });
+  return { id: row.user_id, username: row.username };
+}
+
+/** Requires a valid session. */
+export const requireAuth: MiddlewareHandler<AppEnv> = async (c, next) => {
+  const user = await sessionUser(c);
+  if (!user) throw new HttpError(401, 'unauthorized');
+  c.set('user', user);
   await next();
 };
 

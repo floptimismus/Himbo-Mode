@@ -4,7 +4,7 @@ import { PixelSprite } from '@/components/pixel/PixelSprite.tsx';
 import { Button, Card, ErrorNote, Field, Segmented } from '@/components/ui.tsx';
 import { errorMessage, useT } from '@/i18n/index.ts';
 import { api } from '@/lib/api.ts';
-import { clearLocalData, keys, queryClient } from '@/lib/queries.ts';
+import { clearLocalData } from '@/lib/queries.ts';
 import { usePrefs } from '@/stores/prefs.ts';
 import { RecoveryCodes } from './RecoveryCodes.tsx';
 
@@ -29,10 +29,7 @@ export function Welcome() {
   const [codes, setCodes] = useState<string[] | null>(null);
   const supported = browserSupportsWebAuthn();
 
-  const enter = () => {
-    clearLocalData();
-    void queryClient.invalidateQueries({ queryKey: keys.me });
-  };
+  const enter = () => clearLocalData();
 
   const run = async (fn: () => Promise<void>) => {
     setBusy(true);

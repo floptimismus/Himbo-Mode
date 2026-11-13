@@ -128,7 +128,7 @@ export function ExerciseBlock({ block, exercise, last, onChange, onRemove, onMov
                   return <NumField key="e" label={`${t('workout.rpe')}, ${t('workout.set')} ${n}`} integer max={10} placeholder="1–10" value={s.rpe} onChange={(v) => patch(s.uid, { rpe: v == null || v < 1 ? null : v })} />;
                 })}
                 {live && (
-                  <button type="button" className={cx('flex h-11 w-11 items-center justify-center border-[3px] border-line', s.done ? 'bg-good text-white' : 'bg-surface text-transparent')} aria-pressed={s.done} aria-label={t('workout.markDone', { n })} onClick={() => toggleDone(s)}>
+                  <button type="button" className={cx('flex h-11 w-11 items-center justify-center border-[3px] border-line', s.done ? 'bg-good text-bg' : 'bg-surface text-transparent')} aria-pressed={s.done} aria-label={t('workout.markDone', { n })} onClick={() => toggleDone(s)}>
                     <PixelSprite sprite="check" size={14} className={cx(s.done && 'anim-pop')} />
                   </button>
                 )}

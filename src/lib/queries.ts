@@ -40,9 +40,10 @@ function remember<T>(key: string, data: T): T {
   return data;
 }
 
+/** Drop cached account data (on sign-in/out) and refetch whatever is on screen. */
 export function clearLocalData() {
   for (const key of Object.keys(localStorage)) if (key.startsWith(CACHE_PREFIX)) localStorage.removeItem(key);
-  queryClient.clear();
+  void queryClient.resetQueries();
 }
 
 const tz = () => -new Date().getTimezoneOffset();
@@ -60,8 +61,9 @@ export const keys = {
   passkeys: ['passkeys'] as const,
 };
 
+/** `null` = signed out. */
 export const useMe = () =>
-  useQuery({ queryKey: keys.me, queryFn: async () => remember('me', await api<MeResponse>(`/me?tz=${tz()}`)), ...cached<MeResponse>('me') });
+  useQuery({ queryKey: keys.me, queryFn: async () => remember('me', await api<MeResponse | null>(`/session?tz=${tz()}`)), ...cached<MeResponse | null>('me') });
 
 export const useLibrary = () =>
   useQuery({ queryKey: keys.library, queryFn: async () => remember('library', await api<LibraryState>('/exercises/state')), ...cached<LibraryState>('library') });

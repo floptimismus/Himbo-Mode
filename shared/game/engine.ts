@@ -183,7 +183,9 @@ export function processWorkout(prev: GameState, workout: GWorkout, ctx: ProcessC
     if (local.weekday >= 5) stats.weekend++;
     stats.longestWorkoutMin = Math.max(stats.longestWorkoutMin, durationS / 60);
     stats.maxWeekWorkouts = Math.max(stats.maxWeekWorkouts, wk.workouts);
-    stats.maxMusclesInWorkout = Math.max(stats.maxMusclesInWorkout, Object.keys(muscles).length);
+    // Variety counts muscles that were a primary target of at least one exercise.
+    const primaries = new Set(exercises.flatMap((ex) => ctx.metaOf(ex.exerciseId)!.primary));
+    stats.maxMusclesInWorkout = Math.max(stats.maxMusclesInWorkout, primaries.size);
   }
   stats.sets += totals.sets;
   stats.reps += totals.reps;

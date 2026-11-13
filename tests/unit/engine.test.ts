@@ -104,6 +104,11 @@ describe('processWorkout', () => {
     expect(summary.trophies.map((t) => t.id)).toEqual(expect.arrayContaining(['rugby_sessions', 'early_bird', 'marathon']));
   });
 
+  it('counts only primary muscles for variety', () => {
+    const w = workout(MON, [{ exerciseId: 'rugby-training-session', sets: [{ type: 'normal', durationS: 3600, rpe: 7 }] }]);
+    expect(processWorkout(emptyState(), w, ctx).state.stats.maxMusclesInWorkout).toBe(3);
+  });
+
   it('grants streak freezes for silver and gold tiers, capped', () => {
     const state = emptyState();
     state.stats.workouts = 49;

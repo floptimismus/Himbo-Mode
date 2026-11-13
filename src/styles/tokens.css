@@ -1,0 +1,87 @@
+/*
+ * Design tokens. Light = sunny handheld (cream paper, ink outlines, candy colors).
+ * Dark = night-time arcade (deep violet, neon accents). Components only use these variables.
+ */
+:root,
+[data-theme='light'] {
+  --bg: #f6efd2;
+  --bg-2: #efe6c2;
+  --surface: #fffaea;
+  --surface-2: #efe4bf;
+  --ink: #2b2147;
+  --ink-soft: #5a5075;
+  --line: #2b2147;
+  --depth: rgb(43 33 71 / 0.28);
+  --primary: #d92f5f;
+  --primary-ink: #ffffff;
+  --accent: #157a76;
+  --accent-ink: #ffffff;
+  --gold: #f5bd1f;
+  --gold-ink: #2b2147;
+  --good: #2c8443;
+  --bad: #c22e2e;
+  --xp: #3567d6;
+  --focus: #157a76;
+
+  --tier-bronze: #c0703a;
+  --tier-silver: #9aa3b5;
+  --tier-gold: #f5bd1f;
+  --tier-locked: #b9b099;
+
+  --muscle-base: #d9cda6;
+  --muscle-body: #c4b78f;
+  --muscle-hi: #d92f5f;
+  --muscle-mid: #f08a4b;
+  --muscle-lo: #f5bd1f;
+
+  --glass: rgb(255 250 234 / 0.58);
+  --glass-strong: rgb(255 250 234 / 0.86);
+  --glass-border: rgb(255 255 255 / 0.7);
+  --glass-hi: rgb(255 255 255 / 0.85);
+  --glass-lo: rgb(43 33 71 / 0.08);
+  --glass-shadow: rgb(43 33 71 / 0.35);
+  --scrim: rgb(43 33 71 / 0.4);
+
+  /* Spring-like overshoot for glass sheets and popovers. */
+  --spring: linear(0, 0.35 8%, 0.74 18%, 1.02 30%, 1.08 38%, 1.06 46%, 1.01 60%, 0.995 74%, 1);
+}
+
+[data-theme='dark'] {
+  --bg: #120d2b;
+  --bg-2: #171136;
+  --surface: #221a4f;
+  --surface-2: #2f2568;
+  --ink: #f4f0ff;
+  --ink-soft: #b9afe0;
+  --line: #8676f5;
+  --depth: rgb(0 0 0 / 0.55);
+  --primary: #ff5c9a;
+  --primary-ink: #1a0b2e;
+  --accent: #3ee0d5;
+  --accent-ink: #0d1b2a;
+  --gold: #ffd447;
+  --gold-ink: #1a0b2e;
+  --good: #5be37d;
+  --bad: #ff6b6b;
+  --xp: #5aa9ff;
+  --focus: #3ee0d5;
+
+  --tier-bronze: #d98a4e;
+  --tier-silver: #c5cce0;
+  --tier-gold: #ffd447;
+  --tier-locked: #4a4080;
+
+  --muscle-base: #3a2f7a;
+  --muscle-body: #4a3e94;
+  --muscle-hi: #ff5c9a;
+  --muscle-mid: #ff9d5c;
+  --muscle-lo: #ffd447;
+
+  --glass: rgb(34 26 79 / 0.55);
+  --glass-strong: rgb(28 21 66 / 0.88);
+  --glass-border: rgb(255 255 255 / 0.16);
+  --glass-hi: rgb(255 255 255 / 0.28);
+  --glass-lo: rgb(0 0 0 / 0.3);
+  --glass-shadow: rgb(0 0 0 / 0.6);
+  --scrim: rgb(5 3 15 / 0.6);
+}

@@ -2,3 +2,4 @@
 RP_NAME=Himbo-Mode (dev)
 RP_ID=localhost
 ORIGINS=http://localhost:5173,http://localhost:4173
+RATE_LIMITS=off

@@ -47,6 +47,7 @@ export const clientIp = (c: Context<AppEnv>) => c.req.header('CF-Connecting-IP')
 
 /** Fixed-window rate limit backed by D1. Throws 429 when `limit` is exceeded within `windowS`. */
 export async function rateLimit(c: Context<AppEnv>, name: string, limit: number, windowS: number, subject = clientIp(c)) {
+  if (c.env.RATE_LIMITS === 'off' && c.env.RP_ID === 'localhost') return;
   const windowStart = Math.floor(now() / 1000 / windowS) * windowS;
   const row = await c.env.DB.prepare(
     'INSERT INTO rate_limits (key, window_start, count) VALUES (?, ?, 1) ON CONFLICT(key, window_start) DO UPDATE SET count = count + 1 RETURNING count',

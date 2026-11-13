@@ -86,11 +86,11 @@ export function SettingsPage() {
         <p className="text-sm text-ink-soft">@{u.username}</p>
       </Section>
 
-      <Section title={t('settings.language')}>
+      <Section title={t('settings.appearance')}>
         <Segmented value={lang} label={t('settings.language')} onChange={(l) => void saveSettings({ locale: l })} options={[{ value: 'de', label: 'Deutsch' }, { value: 'en', label: 'English' }]} />
-        <h3 className="px-1 text-sm font-semibold">{t('settings.theme')}</h3>
+        <h3 className="px-1 font-sans text-sm font-semibold">{t('settings.theme')}</h3>
         <Segmented<Theme> value={prefs.theme} label={t('settings.theme')} onChange={(v) => void saveSettings({ theme: v })} options={(['light', 'dark', 'system'] as const).map((v) => ({ value: v, label: t(`settings.theme.${v}`) }))} />
-        <h3 className="px-1 text-sm font-semibold">{t('settings.units')}</h3>
+        <h3 className="px-1 font-sans text-sm font-semibold">{t('settings.units')}</h3>
         <Segmented value={prefs.units} label={t('settings.units')} onChange={(v) => void saveSettings({ units: v })} options={(['kg', 'lb'] as const).map((v) => ({ value: v, label: t(`settings.units.${v}`) }))} />
       </Section>
 

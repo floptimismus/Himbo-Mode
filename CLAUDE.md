@@ -31,6 +31,9 @@ Gamified, mobile-first workout tracker PWA. 8-bit pixel-art content under Apple-
 - Storage units: weight in **kg**, distance in **metres**, durations in **seconds**, timestamps in **ms**. Convert only at the UI edge (`shared/units.ts`).
 - Weeks start on Monday in the user's local time; a week is identified by its Monday as `YYYY-MM-DD`.
 - API input is validated with the Zod schemas in `shared/schemas.ts`; plausibility caps are in `shared/game/constants.ts` (`LIMITS`).
+- `GET /api/session` returns the signed-in user or `null` (no 401 on first load); everything else under `/api` requires a session.
+- Rate limits (`rateLimit` in `worker/lib/util.ts`) are off locally via `RATE_LIMITS=off` in `.dev.vars`; that switch only works when `RP_ID=localhost`.
+- The live workout (`src/stores/live.ts`) stores the start timestamp, never a counter. Finished workouts go through the outbox (`src/stores/outbox.ts`) with a client UUID, so retries are idempotent.
 - SQL lives in `worker/routes/*` and `worker/services/*`; always scope queries by `user_id`.
 - **No hard-coded UI strings.** Every string goes into `src/i18n/en.ts` and `src/i18n/de.ts` (the `de` type forces the same keys). Exercise and trophy texts are localized in their data files.
 - When adding a system exercise: edit `shared/data/exercises/*`, run `npm run seed:gen`, and add the generated SQL as a **new** migration (never edit an applied migration).

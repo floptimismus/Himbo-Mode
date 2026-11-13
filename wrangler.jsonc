@@ -22,7 +22,7 @@
   // README "Setup" step 4: replace YOUR-SUBDOMAIN (or use your custom domain).
   "vars": {
     "RP_NAME": "Himbo-Mode",
-    "RP_ID": "YOUR-SUBDOMAIN.workers.dev",
-    "ORIGINS": "https://himbo-mode.YOUR-SUBDOMAIN.workers.dev,https://*-himbo-mode.YOUR-SUBDOMAIN.workers.dev"
+    "RP_ID": "himbo-mode.YOUR-SUBDOMAIN.workers.dev",
+    "ORIGINS": "https://himbo-mode.YOUR-SUBDOMAIN.workers.dev"
   }
 }

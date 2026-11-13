@@ -329,6 +329,7 @@ export const en = {
   'settings.profile': 'Profile',
   'settings.avatar': 'Avatar',
   'settings.avatarPick': 'Avatar {n}',
+  'settings.appearance': 'Language & display',
   'settings.language': 'Language',
   'settings.theme': 'Theme',
   'settings.theme.light': 'Light',

@@ -22,5 +22,4 @@ jobs:
       - name: Playwright happy path
         run: |
           npx playwright install --with-deps chromium
-          npm run db:migrate:local
           npm run e2e

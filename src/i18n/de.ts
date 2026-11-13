@@ -331,6 +331,7 @@ export const de: Record<Key, string> = {
   'settings.profile': 'Profil',
   'settings.avatar': 'Avatar',
   'settings.avatarPick': 'Avatar {n}',
+  'settings.appearance': 'Sprache & Anzeige',
   'settings.language': 'Sprache',
   'settings.theme': 'Design',
   'settings.theme.light': 'Hell',
